@@ -1,10 +1,5 @@
-﻿interface Question {
-    text: string;
-    answers: string[];
-    correct: number;
-}
-
-const questions: Question[] = [
+﻿"use strict";
+const questions = [
     {
         text: "Which planet is known as the Red Planet?",
         answers: ["Venus", "Jupiter", "Saturn", "Mars"],
@@ -31,28 +26,23 @@ const questions: Question[] = [
         correct: 2,
     },
 ];
+let currentQuestionIndex = 0;
+let score = 0;
 
-let currentQuestionIndex: number = 0;
-let score: number = 0;
-
-const questionNumberEl = document.querySelector(".question-number") as HTMLElement;
-const questionTextEl = document.querySelector(".question-text") as HTMLElement;
-const answersGridEl = document.querySelector(".answers-grid") as HTMLElement;
-const feedbackEl = document.querySelector(".feedback") as HTMLElement;
-const scoreEl = document.querySelector(".score") as HTMLElement;
-
-function showQuestion(index: number): void {
-    const currentQuestion: Question = questions[index];
-
+const questionNumberEl = document.querySelector(".qustion-number");
+const questionTextEl = document.querySelector(".question-text");
+const answersGridEl = document.querySelector(".answers-grid");
+const feedbackEl = document.querySelector(".feedback");
+const scoreEl = document.querySelector(".score");
+// questions on the screen
+function showQuestion(index) {
+    const currentQuestion = questions[index];
     questionNumberEl.textContent = `Question ${index + 1} / ${questions.length}`;
     questionTextEl.textContent = currentQuestion.text;
-
     feedbackEl.textContent = "";
     feedbackEl.className = "feedback";
-
     answersGridEl.innerHTML = "";
-
-    currentQuestion.answers.forEach((answerText: string, answerIndex: number) => {
+    currentQuestion.answers.forEach((answerText, answerIndex) => {
         const button = document.createElement("button");
         button.className = "answer-btn";
         button.textContent = answerText;
@@ -62,45 +52,40 @@ function showQuestion(index: number): void {
         answersGridEl.appendChild(button);
     });
 }
-
-function checkAnswer(selectedIndex: number): void {
-    const currentQuestion: Question = questions[currentQuestionIndex];
-    const allButtons = answersGridEl.querySelectorAll<HTMLButtonElement>(".answer-btn");
+function checkAnswer(selectedIndex) {
+    const currentQuestion = questions[currentQuestionIndex];
+    const allButtons = answersGridEl.querySelectorAll(".answer-btn");
 
     allButtons.forEach(function (button) {
         button.disabled = true;
     });
-
     if (selectedIndex === currentQuestion.correct) {
         score = score + 1;
         allButtons[selectedIndex].classList.add("correct");
         feedbackEl.textContent = "✓ Correct!";
         feedbackEl.classList.add("correct");
-    } else {
+    }
+    else {
         allButtons[selectedIndex].classList.add("wrong");
         allButtons[currentQuestion.correct].classList.add("correct");
         feedbackEl.textContent = "✗ Wrong!";
         feedbackEl.classList.add("wrong");
     }
-
     scoreEl.textContent = `Score: ${score} / ${questions.length}`;
-
     setTimeout(function () {
         currentQuestionIndex = currentQuestionIndex + 1;
-
         if (currentQuestionIndex < questions.length) {
             showQuestion(currentQuestionIndex);
-        } else {
+        }
+        else {
             showFinalScore();
         }
     }, 1200);
 }
-
-function showFinalScore(): void {
+function showFinalScore() {
     questionNumberEl.textContent = "Quiz Complete!";
     questionTextEl.textContent = `You scored ${score} out of ${questions.length}.`;
     answersGridEl.innerHTML = "";
     feedbackEl.textContent = "";
 }
-
 showQuestion(currentQuestionIndex);
