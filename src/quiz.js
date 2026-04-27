@@ -26,15 +26,17 @@ const questions = [
         correct: 2,
     },
 ];
+
 let currentQuestionIndex = 0;
+
 let score = 0;
 
-const questionNumberEl = document.querySelector(".qustion-number");
+const questionNumberEl = document.querySelector(".question-number");
 const questionTextEl = document.querySelector(".question-text");
 const answersGridEl = document.querySelector(".answers-grid");
 const feedbackEl = document.querySelector(".feedback");
 const scoreEl = document.querySelector(".score");
-// questions on the screen
+
 function showQuestion(index) {
     const currentQuestion = questions[index];
     questionNumberEl.textContent = `Question ${index + 1} / ${questions.length}`;
@@ -52,6 +54,7 @@ function showQuestion(index) {
         answersGridEl.appendChild(button);
     });
 }
+
 function checkAnswer(selectedIndex) {
     const currentQuestion = questions[currentQuestionIndex];
     const allButtons = answersGridEl.querySelectorAll(".answer-btn");
@@ -72,6 +75,7 @@ function checkAnswer(selectedIndex) {
         feedbackEl.classList.add("wrong");
     }
     scoreEl.textContent = `Score: ${score} / ${questions.length}`;
+
     setTimeout(function () {
         currentQuestionIndex = currentQuestionIndex + 1;
         if (currentQuestionIndex < questions.length) {
@@ -82,10 +86,12 @@ function checkAnswer(selectedIndex) {
         }
     }, 1200);
 }
+
 function showFinalScore() {
     questionNumberEl.textContent = "Quiz Complete!";
     questionTextEl.textContent = `You scored ${score} out of ${questions.length}.`;
     answersGridEl.innerHTML = "";
     feedbackEl.textContent = "";
 }
+
 showQuestion(currentQuestionIndex);
