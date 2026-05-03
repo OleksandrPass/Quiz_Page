@@ -34,73 +34,94 @@ const questions: Question[] = [
 
 let currentQuestionIndex: number = 0;
 let score: number = 0;
+let hasAnswered: boolean = false;
 
 const questionNumberEl = document.querySelector(".question-number") as HTMLElement;
 const questionTextEl = document.querySelector(".question-text") as HTMLElement;
 const answersGridEl = document.querySelector(".answers-grid") as HTMLElement;
 const feedbackEl = document.querySelector(".feedback") as HTMLElement;
 const scoreEl = document.querySelector(".score") as HTMLElement;
+const nextButton = document.querySelector(".btn-next") as HTMLButtonElement;
+const quizCard = document.querySelector(".quiz-card") as HTMLElement;
+const resultCard = document.querySelector(".result-card") as HTMLElement;
+const finalScoreEl = document.querySelector(".final-score") as HTMLElement;
+const finalMessageEl = document.querySelector(".final-message") as HTMLElement;
 
 function showQuestion(index: number): void {
-    const currentQuestion: Question = questions[index];
+    const question: Question = questions[index];
 
-    questionNumberEl.textContent = `Question ${index + 1} / ${questions.length}`;
-    questionTextEl.textContent = currentQuestion.text;
-
+    hasAnswered = false;
+    nextButton.classList.add("hidden");
     feedbackEl.textContent = "";
     feedbackEl.className = "feedback";
-
     answersGridEl.innerHTML = "";
 
-    currentQuestion.answers.forEach((answerText: string, answerIndex: number) => {
+    questionNumberEl.textContent = `Question ${index + 1} / ${questions.length}`;
+    questionTextEl.textContent = question.text;
+
+    for (let i = 0; i < question.answers.length; i++) {
         const button = document.createElement("button");
         button.className = "answer-btn";
-        button.textContent = answerText;
+        button.textContent = question.answers[i];
         button.addEventListener("click", function () {
-            checkAnswer(answerIndex);
+            checkAnswer(i);
         });
         answersGridEl.appendChild(button);
-    });
+    }
 }
 
 function checkAnswer(selectedIndex: number): void {
-    const currentQuestion: Question = questions[currentQuestionIndex];
+    if (hasAnswered) {
+        return;
+    }
+    hasAnswered = true;
+
+    const question: Question = questions[currentQuestionIndex];
     const allButtons = answersGridEl.querySelectorAll<HTMLButtonElement>(".answer-btn");
 
-    allButtons.forEach(function (button) {
-        button.disabled = true;
-    });
+    for (let i = 0; i < allButtons.length; i++) {
+        allButtons[i].disabled = true;
+    }
 
-    if (selectedIndex === currentQuestion.correct) {
+    if (selectedIndex === question.correct) {
         score = score + 1;
         allButtons[selectedIndex].classList.add("correct");
         feedbackEl.textContent = "✓ Correct!";
         feedbackEl.classList.add("correct");
     } else {
         allButtons[selectedIndex].classList.add("wrong");
-        allButtons[currentQuestion.correct].classList.add("correct");
+        allButtons[question.correct].classList.add("correct");
         feedbackEl.textContent = "✗ Wrong!";
         feedbackEl.classList.add("wrong");
     }
 
     scoreEl.textContent = `Score: ${score} / ${questions.length}`;
-
-    setTimeout(function () {
-        currentQuestionIndex = currentQuestionIndex + 1;
-
-        if (currentQuestionIndex < questions.length) {
-            showQuestion(currentQuestionIndex);
-        } else {
-            showFinalScore();
-        }
-    }, 1200);
+    nextButton.classList.remove("hidden");
 }
 
-function showFinalScore(): void {
-    questionNumberEl.textContent = "Quiz Complete!";
-    questionTextEl.textContent = `You scored ${score} out of ${questions.length}.`;
-    answersGridEl.innerHTML = "";
-    feedbackEl.textContent = "";
+function showResult(): void {
+    quizCard.classList.add("hidden");
+    resultCard.classList.remove("hidden");
+
+    finalScoreEl.textContent = `${score} / ${questions.length}`;
+
+    if (score === questions.length) {
+        finalMessageEl.textContent = "🏆 Perfect score! You're a genius!";
+    } else if (score >= 3) {
+        finalMessageEl.textContent = "🎉 Great job! Almost there!";
+    } else {
+        finalMessageEl.textContent = "📚 Keep practicing, you'll get there!";
+    }
 }
+
+nextButton.addEventListener("click", function () {
+    currentQuestionIndex = currentQuestionIndex + 1;
+
+    if (currentQuestionIndex < questions.length) {
+        showQuestion(currentQuestionIndex);
+    } else {
+        showResult();
+    }
+});
 
 showQuestion(currentQuestionIndex);

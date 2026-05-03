@@ -26,43 +26,49 @@ const questions = [
         correct: 2,
     },
 ];
-
 let currentQuestionIndex = 0;
-
 let score = 0;
-
+let hasAnswered = false;
 const questionNumberEl = document.querySelector(".question-number");
 const questionTextEl = document.querySelector(".question-text");
 const answersGridEl = document.querySelector(".answers-grid");
 const feedbackEl = document.querySelector(".feedback");
 const scoreEl = document.querySelector(".score");
-
+const nextButton = document.querySelector(".btn-next");
+const quizCard = document.querySelector(".quiz-card");
+const resultCard = document.querySelector(".result-card");
+const finalScoreEl = document.querySelector(".final-score");
+const finalMessageEl = document.querySelector(".final-message");
 function showQuestion(index) {
-    const currentQuestion = questions[index];
-    questionNumberEl.textContent = `Question ${index + 1} / ${questions.length}`;
-    questionTextEl.textContent = currentQuestion.text;
+    const question = questions[index];
+    hasAnswered = false;
+    nextButton.classList.add("hidden");
     feedbackEl.textContent = "";
     feedbackEl.className = "feedback";
     answersGridEl.innerHTML = "";
-    currentQuestion.answers.forEach((answerText, answerIndex) => {
+    questionNumberEl.textContent = `Question ${index + 1} / ${questions.length}`;
+    questionTextEl.textContent = question.text;
+    for (let i = 0; i < question.answers.length; i++) {
         const button = document.createElement("button");
         button.className = "answer-btn";
-        button.textContent = answerText;
+        button.textContent = question.answers[i];
         button.addEventListener("click", function () {
-            checkAnswer(answerIndex);
+            checkAnswer(i);
         });
         answersGridEl.appendChild(button);
-    });
+    }
 }
-
 function checkAnswer(selectedIndex) {
-    const currentQuestion = questions[currentQuestionIndex];
+    if (hasAnswered) {
+        return;
+    }
+    hasAnswered = true;
+    const question = questions[currentQuestionIndex];
     const allButtons = answersGridEl.querySelectorAll(".answer-btn");
-
-    allButtons.forEach(function (button) {
-        button.disabled = true;
-    });
-    if (selectedIndex === currentQuestion.correct) {
+    for (let i = 0; i < allButtons.length; i++) {
+        allButtons[i].disabled = true;
+    }
+    if (selectedIndex === question.correct) {
         score = score + 1;
         allButtons[selectedIndex].classList.add("correct");
         feedbackEl.textContent = "✓ Correct!";
@@ -70,28 +76,34 @@ function checkAnswer(selectedIndex) {
     }
     else {
         allButtons[selectedIndex].classList.add("wrong");
-        allButtons[currentQuestion.correct].classList.add("correct");
+        allButtons[question.correct].classList.add("correct");
         feedbackEl.textContent = "✗ Wrong!";
         feedbackEl.classList.add("wrong");
     }
     scoreEl.textContent = `Score: ${score} / ${questions.length}`;
-
-    setTimeout(function () {
-        currentQuestionIndex = currentQuestionIndex + 1;
-        if (currentQuestionIndex < questions.length) {
-            showQuestion(currentQuestionIndex);
-        }
-        else {
-            showFinalScore();
-        }
-    }, 1200);
+    nextButton.classList.remove("hidden");
 }
-
-function showFinalScore() {
-    questionNumberEl.textContent = "Quiz Complete!";
-    questionTextEl.textContent = `You scored ${score} out of ${questions.length}.`;
-    answersGridEl.innerHTML = "";
-    feedbackEl.textContent = "";
+function showResult() {
+    quizCard.classList.add("hidden");
+    resultCard.classList.remove("hidden");
+    finalScoreEl.textContent = `${score} / ${questions.length}`;
+    if (score === questions.length) {
+        finalMessageEl.textContent = "Perfect score! You're a genius!";
+    }
+    else if (score >= 3) {
+        finalMessageEl.textContent = "Great job! Almost there!";
+    }
+    else {
+        finalMessageEl.textContent = "Keep practicing, you'll get there!";
+    }
 }
-
+nextButton.addEventListener("click", function () {
+    currentQuestionIndex = currentQuestionIndex + 1;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion(currentQuestionIndex);
+    }
+    else {
+        showResult();
+    }
+});
 showQuestion(currentQuestionIndex);
