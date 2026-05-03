@@ -40,6 +40,7 @@ const resultCard = document.querySelector(".result-card");
 const finalScoreEl = document.querySelector(".final-score");
 const finalMessageEl = document.querySelector(".final-message");
 function showQuestion(index) {
+
     const question = questions[index];
     hasAnswered = false;
     nextButton.classList.add("hidden");
@@ -48,6 +49,8 @@ function showQuestion(index) {
     answersGridEl.innerHTML = "";
     questionNumberEl.textContent = `Question ${index + 1} / ${questions.length}`;
     questionTextEl.textContent = question.text;
+
+
     for (let i = 0; i < question.answers.length; i++) {
         const button = document.createElement("button");
         button.className = "answer-btn";
