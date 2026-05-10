@@ -1,15 +1,11 @@
 import { useState } from "react";
 import "./App.css";
 
-// --- Types ---
-
 interface Question {
     text: string;
     answers: string[];
     correct: number;
 }
-
-// --- Data ---
 
 const questions: Question[] = [
     {
@@ -39,15 +35,12 @@ const questions: Question[] = [
     },
 ];
 
-// --- Helper ---
 
 function getFinalMessage(score: number, total: number): string {
-    if (score === total) return "🏆 Perfect score! You're a genius!";
-    if (score >= 3)      return "🎉 Great job! Almost there!";
-    return                      "📚 Keep practicing, you'll get there!";
+    if (score === total) return "Perfect score! You're a genius!";
+    if (score >= 3)      return "Great job! Almost there!";
+    return                      "Keep practicing, you'll get there!";
 }
-
-// --- App Component ---
 
 export default function App() {
     const [currentIndex, setCurrentIndex]     = useState<number>(0);
@@ -83,8 +76,6 @@ export default function App() {
         return "answer-btn";
     }
 
-    // --- Result screen ---
-
     if (isFinished) {
         return (
             <div className="page">
@@ -98,13 +89,11 @@ export default function App() {
         );
     }
 
-    // --- Quiz screen ---
-
     return (
         <div className="page">
 
             <header className="header">
-                <h1 className="app-title">⚡ QuizBlitz</h1>
+                <h1 className="app-title">QuizBlitz</h1>
                 <p className="score">Score: {score} / {questions.length}</p>
             </header>
 
@@ -133,13 +122,13 @@ export default function App() {
 
                 {hasAnswered && (
                     <p className={selectedIndex === question.correct ? "feedback correct" : "feedback wrong"}>
-                        {selectedIndex === question.correct ? "✓ Correct!" : "✗ Wrong!"}
+                        {selectedIndex === question.correct ? "Correct!" : "Wrong!"}
                     </p>
                 )}
 
                 {hasAnswered && (
                     <button className="btn-next" onClick={handleNext}>
-                        {currentIndex + 1 < questions.length ? "Next Question →" : "See Results"}
+                        {currentIndex + 1 < questions.length ? "Next Question" : "See Results"}
                     </button>
                 )}
 
