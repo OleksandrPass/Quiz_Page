@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "./App.css";
 
+import Header from "./components/Header";
+import QuestionCard from "./components/QuestionCard.tsx";
+import ResultCard from "./components/ResultsCard";
+
 interface Question {
     text: string;
     answers: string[];
@@ -35,31 +39,23 @@ const questions: Question[] = [
     },
 ];
 
-
-function getFinalMessage(score: number, total: number): string {
-    if (score === total) return "Perfect score! You're a genius!";
-    if (score >= 3)      return "Great job! Almost there!";
-    return                      "Keep practicing, you'll get there!";
-}
-
 export default function App() {
-    const [currentIndex, setCurrentIndex]     = useState<number>(0);
-    const [score, setScore]                   = useState<number>(0);
-    const [selectedIndex, setSelectedIndex]   = useState<number | null>(null);
-    const [isFinished, setIsFinished]         = useState<boolean>(false);
+    const [currentIndex, setCurrentIndex]   = useState<number>(0);
+    const [score, setScore]                 = useState<number>(0);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [isFinished, setIsFinished]       = useState<boolean>(false);
 
-    const question: Question   = questions[currentIndex];
-    const hasAnswered: boolean = selectedIndex !== null;
+    const question: Question = questions[currentIndex];
 
-    function handleAnswer(index: number): void {
-        if (hasAnswered) return;
+    function handleAnswerClick(index: number): void {
+        if (selectedIndex !== null) return;
         setSelectedIndex(index);
         if (index === question.correct) {
             setScore(score + 1);
         }
     }
 
-    function handleNext(): void {
+    function handleNextClick(): void {
         const nextIndex = currentIndex + 1;
         if (nextIndex < questions.length) {
             setCurrentIndex(nextIndex);
@@ -69,70 +65,32 @@ export default function App() {
         }
     }
 
-    function getAnswerClass(index: number): string {
-        if (!hasAnswered)               return "answer-btn";
-        if (index === question.correct) return "answer-btn correct";
-        if (index === selectedIndex)    return "answer-btn wrong";
-        return "answer-btn";
-    }
-
-    if (isFinished) {
-        return (
-            <div className="page">
-                <div className="card">
-                    <h2 className="result-title">Quiz Complete!</h2>
-                    <p className="result-label">Your final score</p>
-                    <p className="final-score">{score} / {questions.length}</p>
-                    <p className="final-message">{getFinalMessage(score, questions.length)}</p>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="page">
 
-            <header className="header">
-                <h1 className="app-title">QuizBlitz</h1>
-                <p className="score">Score: {score} / {questions.length}</p>
-            </header>
+            <Header
+                score={score}
+                total={questions.length}
+            />
 
-            <main className="card">
+            {isFinished ? (
+                <ResultCard
+                    score={score}
+                    total={questions.length}
+                />
+            ) : (
+                <QuestionCard
+                    questionText={question.text}
+                    answers={question.answers}
+                    correctIndex={question.correct}
+                    questionNumber={currentIndex + 1}
+                    totalQuestions={questions.length}
+                    selectedIndex={selectedIndex}
+                    onAnswerClick={handleAnswerClick}
+                    onNextClick={handleNextClick}
+                />
+            )}
 
-                <p className="question-number">
-                    Question {currentIndex + 1} / {questions.length}
-                </p>
-
-                <h2 className="question-text">{question.text}</h2>
-
-                <div className="answers-grid">
-                    {question.answers.map(function (answer: string, index: number) {
-                        return (
-                            <button
-                                key={index}
-                                className={getAnswerClass(index)}
-                                onClick={function () { handleAnswer(index); }}
-                                disabled={hasAnswered}
-                            >
-                                {answer}
-                            </button>
-                        );
-                    })}
-                </div>
-
-                {hasAnswered && (
-                    <p className={selectedIndex === question.correct ? "feedback correct" : "feedback wrong"}>
-                        {selectedIndex === question.correct ? "Correct!" : "Wrong!"}
-                    </p>
-                )}
-
-                {hasAnswered && (
-                    <button className="btn-next" onClick={handleNext}>
-                        {currentIndex + 1 < questions.length ? "Next Question" : "See Results"}
-                    </button>
-                )}
-
-            </main>
         </div>
     );
 }
