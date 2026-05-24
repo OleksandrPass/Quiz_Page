@@ -37,7 +37,7 @@ export default function QuestionCard({
                     <button
                         key={index}
                         className={`answer-btn ${
-                            hasAnswered && index === correctIndex ? "correct" :
+                            hasAnswered && index === correctIndex ? "correct" : // adds class to the correct answer
                                 hasAnswered && index === selectedIndex ? "wrong" : ""
                         }`}
                         onClick={() => onAnswerClick(index)}

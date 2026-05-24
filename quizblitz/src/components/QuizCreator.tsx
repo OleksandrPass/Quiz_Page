@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import type { Question } from "../types/Question";
 interface QuizCreatorProps {
-    onQuizReady: (questions: Question[]) => void;
+    onQuizReady: (questions: Question[]) => void; //callback to pass the questions to the parent component
 }
 
 const MAX_QUESTIONS = 5;
@@ -84,7 +84,7 @@ export default function QuizCreator({ onQuizReady }: QuizCreatorProps) {
                         <div key={aIndex} className="creator-answer-row">
                             <input
                                 type="radio"
-                                name={`correct-${qIndex}`}
+                                name={`correct-${qIndex}`} // group answers for the same question
                                 checked={question.correct === aIndex}
                                 onChange={() => updateCorrect(qIndex, aIndex)}
                             />
