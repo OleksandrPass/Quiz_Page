@@ -1,6 +1,7 @@
 ﻿interface ResultCardProps {
     score: number;
     total: number;
+    onRestart: () => void;
 }
 
 function getFinalMessage(score: number, total: number): string {
@@ -9,13 +10,18 @@ function getFinalMessage(score: number, total: number): string {
     return                      "Keep practicing, you'll get there!";
 }
 
-export default function ResultCard({ score, total }: ResultCardProps) {
+export default function ResultCard({ score, total, onRestart }: ResultCardProps) {
     return (
         <div className="card">
+
             <h2 className="result-title">Quiz Complete!</h2>
+
             <p className="result-label">Your final score</p>
             <p className="final-score">{score} / {total}</p>
             <p className="final-message">{getFinalMessage(score, total)}</p>
+
+            <button className="btn-next" onClick={onRestart}>Play Again</button>
+
         </div>
     );
 }
