@@ -23,30 +23,5 @@
     "text": "What is the tallest mountain in the world?",
     "answers": ["K2", "Mont Blanc", "Kilimanjaro", "Mount Everest"],
     "correct": 3
-  },
-  {
-    "text": "In what year did the First World War end?",
-    "answers": ["1916", "1918", "1920", "1922"],
-    "correct": 1
-  },
-  {
-    "text": "Which programming language was created by Brendan Eich in 1995?",
-    "answers": ["Python", "Java", "JavaScript", "Ruby"],
-    "correct": 2
-  },
-  {
-    "text": "How many planets are in our solar system?",
-    "answers": ["7", "8", "9", "10"],
-    "correct": 1
-  },
-  {
-    "text": "What is the capital of Japan?",
-    "answers": ["Osaka", "Kyoto", "Hiroshima", "Tokyo"],
-    "correct": 3
-  },
-  {
-    "text": "Which ocean is the largest?",
-    "answers": ["Atlantic", "Indian", "Arctic", "Pacific"],
-    "correct": 3
   }
 ]
