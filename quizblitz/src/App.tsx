@@ -60,17 +60,17 @@ export default function App() {
 
             {screen === "home" && (
                 <div className="card home-card">
-                    <h2 className="creator-title">Welcome to QuizBlitz ⚡</h2>
+                    <h2 className="creator-title">Welcome to QuizBlitz</h2>
                     <p className="creator-subtitle">Choose how you want to play</p>
                     <div className="home-buttons">
                         <button className="btn-next" onClick={() => startQuiz(defaultQuestions)}>
                             Play Default Quiz
                         </button>
                         <button className="btn-add" onClick={() => setScreen("creator")}>
-                            ✏️ Create My Own Quiz
+                            Create My Own Quiz
                         </button>
                         <button className="btn-load" onClick={() => setScreen("loader")}>
-                            📋 Load Questions (JSON / URL)
+                            Load Questions (JSON / URL)
                         </button>
                     </div>
                 </div>

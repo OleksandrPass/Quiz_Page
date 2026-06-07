@@ -52,7 +52,7 @@ export default function QuizLoader({ onQuizReady }: QuizLoaderProps) {
 
             const questions = validateQuestions(parsed);
 
-            if (questions.length > 5) {
+            if (questions.length > 5) {                                                    // <----
                 throw new Error("Maximum 5 questions allowed.");
             }
 
@@ -118,8 +118,7 @@ export default function QuizLoader({ onQuizReady }: QuizLoaderProps) {
                         The URL must return a JSON array of question objects in the same format as above.
                     </p>
                     <p className="loader-hint">
-                        You can use <a href="https://jsonplaceholder.typicode.com/" target="_blank" rel="noopener noreferrer">JSONPlaceholder</a> to generate fake data.
-                        //https://cdn.jsdelivr.net/gh/OleksandrPass/Quiz_Page@main/quizblitz/questions.json
+                        https://cdn.jsdelivr.net/gh/OleksandrPass/Quiz_Page@main/quizblitz/questions.json
                     </p>
                 </div>
             )}
