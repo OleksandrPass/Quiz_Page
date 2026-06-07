@@ -110,12 +110,16 @@ export default function QuizLoader({ onQuizReady }: QuizLoaderProps) {
                     <input
                         className="creator-input"
                         type="text"
-                        placeholder="https://cdn.jsdelivr.net/gh/OleksandrPass/Quiz_Page@main/quizblitz/questions.json"
+                        placeholder="https://example.com/api/questions"
                         value={urlInput}
                         onChange={(e) => setUrlInput(e.target.value)}
                     />
                     <p className="loader-hint">
                         The URL must return a JSON array of question objects in the same format as above.
+                    </p>
+                    <p className="loader-hint">
+                        You can use <a href="https://jsonplaceholder.typicode.com/" target="_blank" rel="noopener noreferrer">JSONPlaceholder</a> to generate fake data.
+                        //https://cdn.jsdelivr.net/gh/OleksandrPass/Quiz_Page@main/quizblitz/questions.json
                     </p>
                 </div>
             )}
