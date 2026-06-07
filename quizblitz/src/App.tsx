@@ -4,37 +4,18 @@ import "./App.css";
 import type { Question } from "./types/Question";
 import Header from "./components/Header";
 import QuestionCard from "./components/QuestionCard";
-import ResultCard from "./components/ResultCard.tsx";
+import ResultCard from "./components/ResultCard";
 import QuizCreator from "./components/QuizCreator";
+import QuizLoader from "./components/Quizloader.tsx";
 
-type Screen = "home" | "creator" | "quiz" | "result";
+type Screen = "home" | "creator" | "loader" | "quiz" | "result";
 
 const defaultQuestions: Question[] = [
-    {
-        text: "Which planet is known as the Red Planet?",
-        answers: ["Venus", "Jupiter", "Saturn", "Mars"],
-        correct: 3
-    },
-    {
-        text: "What is the capital city of Australia?",
-        answers: ["Sydney", "Melbourne", "Canberra", "Brisbane"],
-        correct: 2
-    },
-    {
-        text: "How many sides does a hexagon have?",
-        answers: ["5", "6", "7", "8"],
-        correct: 1
-    },
-    {
-        text: "Who painted the Mona Lisa?",
-        answers: ["Michelangelo", "Leonardo da Vinci", "Raphael", "Caravaggio"],
-        correct: 1
-    },
-    {
-        text: "What is the chemical symbol for water?",
-        answers: ["O2", "CO2", "H2O", "HO"],
-        correct: 2
-    }
+    { text: "Which planet is known as the Red Planet?", answers: ["Venus", "Jupiter", "Saturn", "Mars"], correct: 3 },
+    { text: "What is the capital city of Australia?", answers: ["Sydney", "Melbourne", "Canberra", "Brisbane"], correct: 2 },
+    { text: "How many sides does a hexagon have?", answers: ["5", "6", "7", "8"], correct: 1 },
+    { text: "Who painted the Mona Lisa?", answers: ["Michelangelo", "Leonardo da Vinci", "Raphael", "Caravaggio"], correct: 1 },
+    { text: "What is the chemical symbol for water?", answers: ["O2", "CO2", "H2O", "HO"], correct: 2 },
 ];
 
 export default function App() {
@@ -72,10 +53,6 @@ export default function App() {
         }
     }
 
-    function handleRestart(): void {
-        setScreen("home");
-    }
-
     return (
         <div className="page">
 
@@ -83,21 +60,28 @@ export default function App() {
 
             {screen === "home" && (
                 <div className="card home-card">
-                    <h2 className="creator-title">Welcome to QuizBlitz </h2>
+                    <h2 className="creator-title">Welcome to QuizBlitz ⚡</h2>
                     <p className="creator-subtitle">Choose how you want to play</p>
                     <div className="home-buttons">
                         <button className="btn-next" onClick={() => startQuiz(defaultQuestions)}>
                             Play Default Quiz
                         </button>
                         <button className="btn-add" onClick={() => setScreen("creator")}>
-                            ️Create My Own Quiz
+                            ✏️ Create My Own Quiz
+                        </button>
+                        <button className="btn-load" onClick={() => setScreen("loader")}>
+                            📋 Load Questions (JSON / URL)
                         </button>
                     </div>
                 </div>
             )}
 
             {screen === "creator" && (
-                <QuizCreator onQuizReady={(qs) => startQuiz(qs)} />
+                <QuizCreator onQuizReady={startQuiz} />
+            )}
+
+            {screen === "loader" && (
+                <QuizLoader onQuizReady={startQuiz} />
             )}
 
             {screen === "quiz" && (
@@ -117,7 +101,7 @@ export default function App() {
                 <ResultCard
                     score={score}
                     total={questions.length}
-                    onRestart={handleRestart}
+                    onRestart={() => setScreen("home")}
                 />
             )}
 
