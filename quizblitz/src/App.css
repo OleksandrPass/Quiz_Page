@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px 16px;
+    /*padding: 24px 16px;*/
 }
 
 .header {
@@ -291,4 +291,112 @@ body {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+.loader-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.loader-tab {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #e8e2d8;
+    border-radius: 10px;
+    background-color: #f4f0e8;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #7a7a9a;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.loader-tab.active {
+    border-color: #ff5c35;
+    background-color: #fff0eb;
+    color: #ff5c35;
+}
+
+.loader-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.creator-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e8e2d8;
+    border-radius: 10px;
+    font-family: 'DM Sans', monospace;
+    font-size: 0.85rem;
+    color: #1a1a2e;
+    background-color: #fdf6ec;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.creator-textarea:focus {
+    border-color: #ff5c35;
+}
+
+.loader-hint {
+    font-size: 0.82rem;
+    color: #7a7a9a;
+}
+
+.loader-error {
+    background-color: #ffe0e6;
+    border: 2px solid #ff4f6d;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #c0143c;
+}
+
+.btn-load {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: #eef0ff;
+    color: #3d5aff;
+    border: 2px solid #3d5aff;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-load:hover {
+    background-color: #dde0ff;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-back {
+    background: none;
+    border: 2px solid #ff5c35;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ff5c35;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-back:hover {
+    background-color: #ff5c35;
+    color: white;
 }
